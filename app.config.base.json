@@ -1,0 +1,95 @@
+{
+	"name": "File Protector",
+	"slug": "file-protector",
+	"version": "1.0.0",
+	"orientation": "portrait",
+	"scheme": "file-protector",
+	"icon": "./assets/icon.png",
+	"userInterfaceStyle": "light",
+	"splash": {
+		"image": "./assets/splash.png",
+		"resizeMode": "contain",
+		"backgroundColor": "#2C3E50"
+	},
+	"updates": {
+		"fallbackToCacheTimeout": 0
+	},
+	"assetBundlePatterns": ["**/*"],
+	"plugins": [
+		"expo-share-intent",
+		"@react-native-community/datetimepicker",
+		"expo-build-properties"
+	],
+	"ios": {
+		"supportsTablet": true,
+		"bundleIdentifier": "net.oremland.fileprotector",
+		"infoPlist": {
+			"CFBundleDocumentTypes": [
+				{
+					"CFBundleTypeName": "Encrypted File",
+					"LSHandlerRank": "Owner",
+					"LSItemContentTypes": ["net.oremland.fileprotector.encrypted"]
+				},
+				{
+					"CFBundleTypeName": "Any File",
+					"LSHandlerRank": "Owner",
+					"LSItemContentTypes": ["public.data"]
+				}
+			],
+			"UTExportedTypeDeclarations": [
+				{
+					"UTTypeIdentifier": "net.oremland.fileprotector.encrypted",
+					"UTTypeDescription": "Encrypted File",
+					"UTTypeConformsTo": ["public.data"],
+					"UTTypeTagSpecification": {
+						"public.filename-extension": ["encrypted"]
+					}
+				}
+			]
+		}
+	},
+	"android": {
+		"permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
+		"adaptiveIcon": {
+			"foregroundImage": "./assets/adaptive-icon.png",
+			"backgroundColor": "#2C3E50"
+		},
+		"package": "net.oremland.fileprotector",
+		"intentFilters": [
+			{
+				"action": "VIEW",
+				"category": ["DEFAULT", "BROWSABLE"],
+				"data": {
+					"scheme": "content",
+					"host": "*",
+					"pathPattern": ".*\\.encrypted",
+					"mimeType": "*/*"
+				}
+			},
+			{
+				"action": "SEND",
+				"category": ["DEFAULT"],
+				"data": {
+					"mimeType": "*/*"
+				}
+			},
+			{
+				"action": "SEND_MULTIPLE",
+				"category": ["DEFAULT"],
+				"data": {
+					"mimeType": "*/*"
+				}
+			}
+		]
+	},
+	"web": {
+		"bundler": "metro",
+		"config": {
+			"router": {
+				"experiments": {
+					"baseUrl": "/file_protector"
+				}
+			}
+		}
+	}
+}

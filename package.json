@@ -1,0 +1,49 @@
+{
+  "name": "file_protector",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "test": "jest",
+    "build:android:local": "rm -f app.json && npx expo prebuild --platform android && cd android && ./gradlew assembleRelease && cd .. && rm -f app.json"
+  },
+  "dependencies": {
+    "@react-native-community/datetimepicker": "^8.5.1",
+    "@react-native-picker/picker": "2.11.1",
+    "buffer": "^6.0.3",
+    "crypto-js": "^4.2.0",
+    "expo": "~54.0.25",
+    "expo-build-properties": "^1.0.9",
+    "expo-constants": "~18.0.10",
+    "expo-document-picker": "~14.0.7",
+    "expo-file-system": "~19.0.19",
+    "expo-linking": "~8.0.9",
+    "expo-router": "~6.0.15",
+    "expo-share-intent": "^5.1.0",
+    "expo-sharing": "~14.0.7",
+    "expo-status-bar": "~3.0.8",
+    "prop-types": "^15.8.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-get-random-values": "^2.0.0",
+    "react-native-picker-select": "^9.3.1",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-web": "^0.21.0"
+  },
+  "devDependencies": {
+    "@testing-library/react-native": "^13.3.3",
+    "@types/crypto-js": "^4.2.2",
+    "@types/jest": "29.5.14",
+    "@types/react": "~19.1.0",
+    "jest": "~29.7.0",
+    "jest-expo": "~54.0.13",
+    "react-test-renderer": "19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "private": true
+}

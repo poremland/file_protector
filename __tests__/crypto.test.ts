@@ -17,6 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 import "react-native-get-random-values"; // Import the polyfill for crypto.getRandomValues
 import { encrypt, decrypt } from "../src/crypto";
+import * as fs from "fs";
+import * as path from "path";
 
 // Helper function to convert a string to an ArrayBuffer
 function stringToArrayBuffer(str: string): ArrayBuffer {
@@ -31,6 +33,16 @@ function stringToArrayBuffer(str: string): ArrayBuffer {
 // Helper function to convert an ArrayBuffer to a string
 function arrayBufferToString(buf: ArrayBuffer): string {
 	return String.fromCharCode.apply(null, new Uint8Array(buf) as any);
+}
+
+// Helper to convert Node Buffer to ArrayBuffer
+function toArrayBuffer(buffer: Buffer): ArrayBuffer {
+	const ab = new ArrayBuffer(buffer.length);
+	const view = new Uint8Array(ab);
+	for (let i = 0; i < buffer.length; ++i) {
+		view[i] = buffer[i];
+	}
+	return ab;
 }
 
 describe("Crypto", () => {
@@ -73,5 +85,31 @@ describe("Crypto", () => {
 		expect(encrypted).not.toEqual(plainText);
 		const decryptedArrayBuffer = await decrypt(encrypted, "", "des3", "md5");
 		expect(arrayBufferToString(decryptedArrayBuffer)).toEqual(plainText);
+	});
+
+	it("should decrypt a file encrypted with OpenSSL CLI", async () => {
+		const readmePath = path.join(__dirname, "../README.md");
+		const encryptedPath = path.join(__dirname, "./assets/README.md.encrypted");
+
+		if (fs.existsSync(encryptedPath)) {
+			const originalContent = fs.readFileSync(readmePath, "utf-8");
+			const encryptedBuffer = fs.readFileSync(encryptedPath);
+			const encryptedArrayBuffer = toArrayBuffer(encryptedBuffer);
+
+			const decryptedArrayBuffer = await decrypt(
+				encryptedArrayBuffer,
+				"test",
+				"des3",
+				"md5",
+			);
+			const decryptedContent = arrayBufferToString(decryptedArrayBuffer);
+
+			// Normalize line endings for comparison (Windows vs Unix)
+			expect(decryptedContent.replace(/\r\n/g, "\n")).toEqual(
+				originalContent.replace(/\r\n/g, "\n"),
+			);
+		} else {
+			console.warn("assets/README.md.encrypted not found, skipping OpenSSL compatibility test");
+		}
 	});
 });

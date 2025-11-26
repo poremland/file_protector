@@ -19,13 +19,7 @@ import CryptoJS from "crypto-js";
 
 // Helper to convert ArrayBuffer to WordArray
 function arrayBufferToWordArray(ab: ArrayBuffer): CryptoJS.lib.WordArray {
-	const ua = new Uint8Array(ab);
-	const words: number[] = [];
-	for (let i = 0; i < ua.length; i += 4) {
-		let word = (ua[i] << 24) | (ua[i + 1] << 16) | (ua[i + 2] << 8) | ua[i + 3];
-		words.push(word);
-	}
-	return CryptoJS.lib.WordArray.create(words, ua.length);
+	return CryptoJS.lib.WordArray.create(new Uint8Array(ab) as any);
 }
 
 // Helper to convert WordArray to ArrayBuffer

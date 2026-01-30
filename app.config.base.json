@@ -1,7 +1,7 @@
 {
 	"name": "File Protector",
 	"slug": "file-protector",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"orientation": "portrait",
 	"scheme": "file-protector",
 	"icon": "./assets/icon.png",

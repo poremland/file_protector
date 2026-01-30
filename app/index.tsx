@@ -41,7 +41,11 @@ export default function HomeScreen() {
 					pathname: "/workflow",
 					params: { type: "decrypt", uri: url },
 				});
-			} else if (nameToCheck.startsWith("file://") || fileName) {
+			} else if (
+				nameToCheck.startsWith("file://") ||
+				nameToCheck.startsWith("content://") ||
+				fileName
+			) {
 				// If it's a file:// URI or we have a fileName (implying a shared file)
 				router.push({
 					pathname: "/workflow",

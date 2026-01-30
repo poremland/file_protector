@@ -112,4 +112,27 @@ describe("Crypto", () => {
 			console.warn("assets/README.md.encrypted not found, skipping OpenSSL compatibility test");
 		}
 	});
+
+	it("should decrypt a file encrypted with OpenSSL", async () => {
+		const encryptedPath = path.join(__dirname, "./assets/test_input.txt.encrypted");
+		const expectedContent = "Hello World\n";
+
+		if (fs.existsSync(encryptedPath)) {
+			const encryptedBuffer = fs.readFileSync(encryptedPath);
+			const encryptedArrayBuffer = toArrayBuffer(encryptedBuffer);
+
+			const decryptedArrayBuffer = await decrypt(
+				encryptedArrayBuffer,
+				"test",
+				"des3",
+				"md5",
+			);
+			const decryptedContent = arrayBufferToString(decryptedArrayBuffer);
+
+			// Trim to handle potential newline differences if echo added one
+			expect(decryptedContent.trim()).toEqual(expectedContent.trim());
+		} else {
+			throw new Error("assets/test_input.txt.encrypted not found");
+		}
+	});
 });

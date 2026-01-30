@@ -85,7 +85,12 @@ export default function WorkflowScreen() {
 							},
 						);
 						const buffer = Buffer.from(base64Content, "base64");
-						content = buffer.buffer; // Get the underlying ArrayBuffer
+						// Fix: Buffer.from might return a view on a larger buffer (pool).
+						// We must slice it to get the exact ArrayBuffer for the content.
+						content = buffer.buffer.slice(
+							buffer.byteOffset,
+							buffer.byteOffset + buffer.byteLength,
+						);
 					}
 					setFileContent(content);
 				} catch (e: any) {
@@ -228,6 +233,8 @@ export default function WorkflowScreen() {
 				value={password}
 				placeholder="Enter password"
 				secureTextEntry
+				autoCapitalize="none"
+				autoCorrect={false}
 			/>
 
 			{password ? (

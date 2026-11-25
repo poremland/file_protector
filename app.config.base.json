@@ -83,13 +83,6 @@
 		]
 	},
 	"web": {
-		"bundler": "metro",
-		"config": {
-			"router": {
-				"experiments": {
-					"baseUrl": "/file_protector"
-				}
-			}
-		}
+		"bundler": "metro"
 	}
 }
